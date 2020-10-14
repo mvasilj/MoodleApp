@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block title %}
+- Upisni list
+{% endblock  %}
+{% block content %}
+{% if student.status == 'NONE' %}
+    <h2>Student {{student.username}} doesn't have status!</h2>
+{% else %}
+<div class="row">
+  <div class="border col-md-6 flex-column">
+    <h1>Predmeti</h1>
+    {% if predmeti %}
+        {% for predmet in predmeti %}
+            <form method="POST">
+                <button type="submit" name="enroll" value="{{predmet.id}}" class="btn btn-outline-dark">+</button>
+                {{predmet.kod}} {{predmet.ime}} 
+                {% csrf_token %}
+            </form>
+        {% endfor %}
+    {% else %}
+        <p>There are no courses.</p>
+    {% endif %}
+    </div> 
+
+    <div class="border col-md-5 flex-column">
+        <h1>Student {{student.username}} courses</h1>
+        {% if upisani %}
+        {% for s in semestri %}
+            <div class="border">
+                <h3>Semestar {{s}}</h3>
+                {% for upisan in upisani %}
+                   {% if student.status == 'REDOVNI' and upisan.predmet.sem_redovni == s %}
+                        <form method="POST" class="d-flex justify-content-between align-items-center">
+                            {{upisan.predmet.kod}} {{upisan.predmet.ime}}
+                            <div class="d-flex justify-content-end">
+                            {% if upisan.status == 'enrolled' %}
+                                    <button type="submit" name="dismiss" value="{{upisan.predmet.id}}" class="btn btn-outline-dark">x</button>
+                                    <button type="submit" name="passed" value="{{upisan.predmet.id}}" class="btn btn-outline-dark">	&#10004;</button>
+                                   
+                            {% elif upisan.status == 'passed' %}
+                                <span>	&#10004;</span>
+                                <button type="submit" name="not-passed" value="{{upisan.predmet.id}}" class="btn btn-outline-dark">Unpass</button>
+                            {% else %}
+                            <button type="submit" name="dismiss" value="{{upisan.predmet.id}}" class="btn btn-outline-dark">x</button>
+                            <button type="submit" name="passed" value="{{upisan.predmet.id}}" class="btn btn-outline-dark">	&#10004;</button>
+                            <span>Status not selected. Remove from list and enroll or mark it passed!</span>
+                            {% endif %}
+                            </div> 
+                        {% csrf_token %}
+                        </form>
+                    {% elif student.status == 'IZVANREDNI' and upisan.predmet.sem_izvanredni == s %}
+                        <form method="POST" class="d-flex justify-content-between align-items-center">
+                            {{upisan.predmet.kod}} {{upisan.predmet.ime}}
+                            <div class="d-flex justify-content-end">
+                            {% if upisan.status == 'enrolled' %}
+                                <button type="submit" name="dismiss" value="{{upisan.predmet.id}}" class="btn btn-outline-dark">x</button>
+                                <button type="submit" name="passed" value="{{upisan.predmet.id}}" class="btn btn-outline-dark">	&#10004;</button>
+                           
+                            {% elif upisan.status == 'passed' %}
+                                <span>	&#10004;</span>
+                                <button type="submit" name="not-passed" value="{{upisan.predmet.id}}" class="btn btn-outline-dark">Unpass</button>
+                            {% else %}
+                            <button type="submit" name="dismiss" value="{{upisan.predmet.id}}" class="btn btn-outline-dark">x</button>
+                            <button type="submit" name="passed" value="{{upisan.predmet.id}}" class="btn btn-outline-dark">	&#10004;</button>
+                            <span>Status not selected. Remove from list and enroll or mark it passed!</span>
+                            {% endif %}
+                            </div>
+                        {% csrf_token %}
+                        </form>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+        {% else %}
+            <p>No enrolled courses.</p>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+{% endblock  %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% if studenti %}
+        <h1>List of students</h1>
+        {% for student in studenti %}
+            <p class="margin-tb">
+                
+                <a href="/upisni-list/{{student.id}}" class="btn btn-primary">{{student}}</a>
+            </p>
+        {% endfor %}
+    {% else %}
+        <h1>No students in database!</h1>
+    {% endif %}
+{% endblock %}

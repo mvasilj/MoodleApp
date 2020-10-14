@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+    <a href="/add-course" class="btn btn-primary">Add course</a>
+    {% if courses %}
+        <h1>Courses</h1>
+        {% for c in courses %}
+            <form method="POST" class="form">
+             
+                <a href="/course-details/{{c.id}}" class="btn btn-outline-primary">{{c}}</a>
+                <a href="/edit-course/{{c.id}}" class="btn btn-info">Edit</a>
+                    <button type="submit" name="delete" value="{{c.id}}" class="btn btn-danger">Delete</button>
+                    {% csrf_token %}
+            </form>
+        {% endfor %}
+    {% else %}
+        <p>There are no courses!</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div>
+        <p><b>KOD:</b> {{course.kod}}</p>
+        <p><b>NAZIV:</b> {{course.ime}}</p>
+        <p><b>PROGRAM:</b> {{course.program}}</p>
+        <p><b>BODOVI:</b> {{course.bodovi}}</p>
+        <p><b>SEMESTAR ZA REDOVNE:</b> {{course.sem_redovni}}</p>
+        <p><b>SEMESTAR ZA IZVANREDNE:</b> {{course.sem_izvanredni}}</p>
+        <p><b>IZBORNI?:</b> {{course.izborni}}</p>
+    </div>
+           
+{% endblock %}
